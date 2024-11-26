@@ -16,8 +16,8 @@ A Flutter app for browsing, searching, and filtering characters from the Rick an
 1. **Clone the Repository**:
 
    ```bash
-   git clone https://github.com/your-repo-name.git
-   cd your-repo-name
+   git clone https://github.com/TomerNoy/test-app-character-list.git
+   cd test-app-character-list
 
    ```
 
