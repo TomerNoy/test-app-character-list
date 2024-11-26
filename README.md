@@ -28,7 +28,14 @@ A Flutter app for browsing, searching, and filtering characters from the Rick an
 
    ```
 
-3. **Run the App**:
+3. **Run the Build Runner**:
+
+   ```bash
+   flutter pub run build_runner build --delete-conflicting-outputs
+
+   ```
+
+4. **Run the App**:
    ```bash
     flutter run
    ```
