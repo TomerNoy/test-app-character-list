@@ -21,12 +21,14 @@ class CharacterState {
   final int currentPage;
   final bool isFetching;
   final String errorMessage;
+  final int? totalPages;
 
   CharacterState({
     required this.characters, // list of characters
     required this.currentPage, // current page number
     required this.isFetching, // is fetching data
     this.errorMessage = '', // error message if exists
+    this.totalPages, // total pages available
   });
 
   CharacterState copyWith({
@@ -34,12 +36,14 @@ class CharacterState {
     int? currentPage,
     bool? isFetching,
     String? errorMessage,
+    int? totalPages,
   }) {
     return CharacterState(
       characters: characters ?? this.characters,
       currentPage: currentPage ?? this.currentPage,
       isFetching: isFetching ?? this.isFetching,
       errorMessage: errorMessage ?? this.errorMessage,
+      totalPages: totalPages ?? this.totalPages,
     );
   }
 }
@@ -55,6 +59,11 @@ class CharacterNotifier extends StateNotifier<CharacterState> {
   Future<void> fetchCharacters() async {
     // Prevent multiple fetch requests
     if (state.isFetching) return;
+    // Prevent fetching if all pages are fetched
+    if (state.totalPages != null && state.currentPage > state.totalPages!) {
+      loggerService.warning('No more pages to fetch');
+      return;
+    }
 
     // Read search query and filter status if need filtering
     final searchQuery = ref.read(searchQueryProvider);
@@ -84,10 +93,11 @@ class CharacterNotifier extends StateNotifier<CharacterState> {
 
         final totalPages = info?['pages'];
 
-        if (state.currentPage > totalPages) {
-          loggerService.warning('No more pages to fetch');
-          return;
+        // Update total pages only when needed
+        if (totalPages != state.totalPages) {
+          state = state.copyWith(totalPages: totalPages);
         }
+
         // Parse the json data to character model
         final newCharacters =
             results?.map((json) => CharacterModel.fromJson(json)).toList();

@@ -4,7 +4,6 @@ import 'package:testapp/src/pages/widgets/character_card.dart';
 import 'package:testapp/src/pages/widgets/character_search_bar.dart';
 import 'package:testapp/src/pages/widgets/error_widget.dart';
 import 'package:testapp/src/providers/character_provider.dart';
-import 'package:testapp/src/services/services.dart';
 
 /// Character list page with character cards
 class CharacterList extends ConsumerStatefulWidget {
